@@ -1,12 +1,28 @@
-# React + Vite
+# Clue Info Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Clue Info Tracker is a web application designed to help players of the classic board game Clue (Cluedo) keep track of information, deductions, and clues during gameplay. The app provides an interactive interface to log cards, track player suggestions, and manage possible solutions, making it easier to strategize and enjoy the game.
 
-Currently, two official plugins are available:
+## Features
+- Track which cards each player has seen or shown
+- Log suggestions and responses for each round
+- Visualize possible solutions based on collected information
+- User-friendly interface for quick updates during gameplay
+- Works on desktop and mobile browsers
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
+1. Install dependencies: `npm install`
+2. Start the development server: `npm run dev`
+3. Open your browser at `http://localhost:5173` to use the app
 
-## Expanding the ESLint configuration
+## Technologies Used
+- React
+- Vite
+- JavaScript (or TypeScript, if enabled)
+- ESLint for code quality
+- TailwindCSS
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Contributing
+Contributions are welcome! Please open issues or submit pull requests for improvements or bug fixes.
+
+## Disclaimer
+This project was made with the assistance of AI.
