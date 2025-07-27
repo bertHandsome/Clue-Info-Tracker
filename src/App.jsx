@@ -13,19 +13,25 @@ const App = () => {
   const mansionWhereList = ['Bathroom', 'Office', 'Dining Room', 'Game Room', 'Garage', 'Bedroom', 'Living Room', 'Kitchen', 'Courtyard'];
   const boardwalkWhereList = ['Beach', 'Arcade', 'Jet Ski Rental', 'Ferris Wheel', 'Surf Shop'];
 
-  // State to store the status of each cell in the table.
-  // The key will be 'itemName_category' (e.g., 'Green_who', 'Wrench_what', 'Bathroom_where')
-  // The value will be 0 (empty), 1 ('x'), or 2 (circle)
+  // State to store the status of each cell in the right column (X, Circle, Empty)
+  // Key: 'itemName_category' (e.g., 'Green_who')
+  // Value: 0 (empty), 1 ('x'), or 2 (circle)
   const [cellStates, setCellStates] = useState({});
+
+  // NEW State to store the highlight status of each name in the left column
+  // Key: 'itemName_category' (e.g., 'Green_who')
+  // Value: true (highlighted/dark red), false (normal color)
+  const [nameHighlightStates, setNameHighlightStates] = useState({});
 
   // Function to handle the selection of a game location
   const handleLocationSelect = (location) => {
     setSelectedLocation(location);
-    // Reset cell states when a new location is selected
+    // Reset all states when a new location is selected
     setCellStates({});
+    setNameHighlightStates({});
   };
 
-  // Function to handle cell clicks in the game board table
+  // Function to handle cell clicks in the right column (for X/Circle marks)
   const handleCellClick = (itemName, category) => {
     const key = `${itemName}_${category}`;
     // Cycle through states: 0 (empty) -> 1 ('x') -> 2 (circle) -> 0 (empty)
@@ -36,7 +42,17 @@ const App = () => {
     });
   };
 
-  // Helper function to render the content of a cell based on its state
+  // NEW Function to handle clicks on the item names in the left column
+  const handleNameClick = (itemName, category) => {
+    const key = `${itemName}_${category}`;
+    setNameHighlightStates(prevStates => {
+      // Toggle the highlight state: true -> false, false -> true
+      const currentHighlightState = prevStates[key] || false;
+      return { ...prevStates, [key]: !currentHighlightState };
+    });
+  };
+
+  // Helper function to render the content of a cell based on its state (X/Circle)
   const renderCellContent = (itemName, category) => {
     const key = `${itemName}_${category}`;
     const state = cellStates[key] || 0;
@@ -109,7 +125,14 @@ const App = () => {
               </tr>
               {whoList.map((who, index) => (
                 <tr key={`who-${index}`} className="hover:bg-gray-700/50 transition-colors duration-150">
-                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-200">{who}</td>
+                  <td
+                    className={`px-3 py-2 whitespace-nowrap text-sm font-medium cursor-pointer transition-colors duration-150 ${
+                      nameHighlightStates[`${who}_who`] ? 'text-red-800' : 'text-gray-200'
+                    }`}
+                    onClick={() => handleNameClick(who, 'who')}
+                  >
+                    {who}
+                  </td>
                   <td
                     className="px-3 py-2 whitespace-nowrap text-center text-sm cursor-pointer border border-gray-600 rounded-md bg-gray-700/30 hover:bg-gray-700/60 transition-colors duration-150 relative overflow-hidden"
                     onClick={() => handleCellClick(who, 'who')}
@@ -127,7 +150,14 @@ const App = () => {
               </tr>
               {whatList.map((what, index) => (
                 <tr key={`what-${index}`} className="hover:bg-gray-700/50 transition-colors duration-150">
-                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-200">{what}</td>
+                  <td
+                    className={`px-3 py-2 whitespace-nowrap text-sm font-medium cursor-pointer transition-colors duration-150 ${
+                      nameHighlightStates[`${what}_what`] ? 'text-red-800' : 'text-gray-200'
+                    }`}
+                    onClick={() => handleNameClick(what, 'what')}
+                  >
+                    {what}
+                  </td>
                   <td
                     className="px-3 py-2 whitespace-nowrap text-center text-sm cursor-pointer border border-gray-600 rounded-md bg-gray-700/30 hover:bg-gray-700/60 transition-colors duration-150 relative overflow-hidden"
                     onClick={() => handleCellClick(what, 'what')}
@@ -145,7 +175,14 @@ const App = () => {
               </tr>
               {currentWhereList.map((where, index) => (
                 <tr key={`where-${index}`} className="hover:bg-gray-700/50 transition-colors duration-150">
-                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-200">{where}</td>
+                  <td
+                    className={`px-3 py-2 whitespace-nowrap text-sm font-medium cursor-pointer transition-colors duration-150 ${
+                      nameHighlightStates[`${where}_where`] ? 'text-red-800' : 'text-gray-200'
+                    }`}
+                    onClick={() => handleNameClick(where, 'where')}
+                  >
+                    {where}
+                  </td>
                   <td
                     className="px-3 py-2 whitespace-nowrap text-center text-sm cursor-pointer border border-gray-600 rounded-md bg-gray-700/30 hover:bg-gray-700/60 transition-colors duration-150 relative overflow-hidden"
                     onClick={() => handleCellClick(where, 'where')}
