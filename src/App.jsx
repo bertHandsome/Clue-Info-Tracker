@@ -13,12 +13,12 @@ const App = () => {
   const mansionWhereList = ['Bathroom', 'Office', 'Dining Room', 'Game Room', 'Garage', 'Bedroom', 'Living Room', 'Kitchen', 'Courtyard'];
   const boardwalkWhereList = ['Beach', 'Arcade', 'Jet Ski Rental', 'Ferris Wheel', 'Surf Shop'];
 
-  // State to store the status of each cell in the right column (X, Circle, Empty)
+  // State to store the status of each cell in the right column (X, ?, Circle, Empty)
   // Key: 'itemName_category' (e.g., 'Green_who')
-  // Value: 0 (empty), 1 ('x'), or 2 (circle)
+  // Value: 0 (empty), 1 ('x'), 2 ('?'), or 3 (circle)
   const [cellStates, setCellStates] = useState({});
 
-  // NEW State to store the highlight status of each name in the left column
+  // State to store the highlight status of each name in the left column
   // Key: 'itemName_category' (e.g., 'Green_who')
   // Value: true (highlighted/dark red), false (normal color)
   const [nameHighlightStates, setNameHighlightStates] = useState({});
@@ -31,18 +31,18 @@ const App = () => {
     setNameHighlightStates({});
   };
 
-  // Function to handle cell clicks in the right column (for X/Circle marks)
+  // Function to handle cell clicks in the right column (for X/?/Circle marks)
   const handleCellClick = (itemName, category) => {
     const key = `${itemName}_${category}`;
-    // Cycle through states: 0 (empty) -> 1 ('x') -> 2 (circle) -> 0 (empty)
+    // Cycle through states: 0 (empty) -> 1 ('x') -> 2 ('?') -> 3 (circle) -> 0 (empty)
     setCellStates(prevStates => {
       const currentState = prevStates[key] || 0;
-      const nextState = (currentState + 1) % 3; // 0, 1, 2
+      const nextState = (currentState + 1) % 4; // Now cycles through 4 states (0, 1, 2, 3)
       return { ...prevStates, [key]: nextState };
     });
   };
 
-  // NEW Function to handle clicks on the item names in the left column
+  // Function to handle clicks on the item names in the left column
   const handleNameClick = (itemName, category) => {
     const key = `${itemName}_${category}`;
     setNameHighlightStates(prevStates => {
@@ -52,7 +52,7 @@ const App = () => {
     });
   };
 
-  // Helper function to render the content of a cell based on its state (X/Circle)
+  // Helper function to render the content of a cell based on its state (X/?/Circle)
   const renderCellContent = (itemName, category) => {
     const key = `${itemName}_${category}`;
     const state = cellStates[key] || 0;
@@ -60,6 +60,8 @@ const App = () => {
       case 1:
         return <span className="font-bold text-lg leading-none">X</span>;
       case 2:
+        return <span className="font-bold text-lg leading-none">?</span>; // New state for question mark
+      case 3:
         return <span className="font-bold text-lg leading-none">&#9679;</span>; // Unicode for a circle
       default:
         return null;
